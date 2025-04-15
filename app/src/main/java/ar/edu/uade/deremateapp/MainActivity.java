@@ -21,6 +21,12 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) ->
+        {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
         sharedPreferences = getSharedPreferences("MyAppPrefs",MODE_PRIVATE);
         String jwtToken = sharedPreferences.getString("jwtToken","");
         if(jwtToken.isEmpty()) // si no existe jwtToken, se procede a redirigir al usuario al LoginActivity
@@ -31,12 +37,7 @@ public class MainActivity extends AppCompatActivity
         }
         else
         {
-            ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) ->
-            {
-                Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-                v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-                return insets;
-            });
+            //todo
         }
 
     }
