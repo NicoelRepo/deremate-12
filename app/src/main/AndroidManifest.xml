@@ -10,7 +10,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.DeremateApp">
+        android:theme="@style/Theme.DeremateApp"
+        android:usesCleartextTraffic="true"> <!-- Esta etiqueta es para poder ejecutar en entorno local
+         usando HTTP, ya que en el back tenemos HTTP-->
         <activity
             android:name=".MainActivity"
             android:exported="true">

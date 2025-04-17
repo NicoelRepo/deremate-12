@@ -33,8 +33,9 @@ public class RegisterActivity extends AppCompatActivity
     private TextView textViewRegisterError;
     private RequestQueue requestQueue;
 
-    /*** url backend ***/
-    private static final String URL_REGISTRO = "http://localhost:8080/auth/registro";
+    /*** url backend
+     * Nota, por el momento se tiene que modificar con la ip privada local de cada uno, hay que modificarlo ***/
+    private static final String URL_REGISTRO = "http://192.168.0.106:8080/auth/registro";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

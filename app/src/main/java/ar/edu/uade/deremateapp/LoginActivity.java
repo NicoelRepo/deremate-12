@@ -32,8 +32,9 @@ public class LoginActivity extends AppCompatActivity
     private RequestQueue requestQueue;
     private SharedPreferences sharedPreferences; // uso para guardar el jwtToken de forma segura en la app
 
-    /*** url backend ***/
-    private static final String URL_LOGIN = "http://localhost:8080/auth/login";
+    /*** url backend
+     * Nota, por el momento se tiene que modificar con la ip privada local de cada uno, hay que modificarlo ***/
+    private static final String URL_LOGIN = "http://192.168.0.106   :8080/auth/login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +112,7 @@ public class LoginActivity extends AppCompatActivity
             public void onErrorResponse(VolleyError error) {
                 textViewLoginError.setText("Error de autenticación. Credenciales incorrectas.");
                 textViewLoginError.setVisibility(View.VISIBLE);
-                // También podrías loggear el error para depuración: Log.e("LoginActivity", "Error de login: " + error.toString());
+                // Log.e("LoginActivity", "Error de login: " + error.toString());
             }
         });
 
