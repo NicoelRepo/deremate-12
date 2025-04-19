@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity
 
     /*** url backend
      * Nota, por el momento se tiene que modificar con la ip privada local de cada uno, hay que modificarlo ***/
-    private static final String URL_LOGIN = "http://192.168.0.106   :8080/auth/login";
+    private static final String URL_LOGIN = BuildConfig.BACKEND_URL + "/auth/login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
