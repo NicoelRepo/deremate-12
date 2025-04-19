@@ -12,8 +12,12 @@ android {
         targetSdk 35
         versionCode 1
         versionName "1.0"
+        buildFeatures.buildConfig true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        def BACKEND_URL = project.hasProperty("BACKEND_URL") ? BACKEND_URL : ""
+        buildConfigField "String", "BACKEND_URL", "\"${BACKEND_URL}\""
     }
 
     buildTypes {
@@ -39,3 +43,4 @@ dependencies {
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
 }
+
