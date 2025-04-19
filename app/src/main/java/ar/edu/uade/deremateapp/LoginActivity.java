@@ -21,12 +21,28 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
+import javax.inject.Inject;
+
+import ar.edu.uade.deremateapp.data.api.EntregasAPIService;
+import ar.edu.uade.deremateapp.data.api.LoginAPIService;
+import ar.edu.uade.deremateapp.data.api.model.EntregasReponseDTO;
+import ar.edu.uade.deremateapp.data.api.model.LoginDTO;
+import ar.edu.uade.deremateapp.data.api.model.LoginResponseDTO;
+import ar.edu.uade.deremateapp.data.repository.token.TokenRepository;
+import dagger.hilt.android.AndroidEntryPoint;
+import retrofit2.Call;
+import retrofit2.Callback;
+
+@AndroidEntryPoint
 public class LoginActivity extends AppCompatActivity
 {
 
     private EditText editTextEmailLogin;
     private EditText editTextPasswordLogin;
     private Button buttonLogin;
+    private Button buttonMakeRequest;
     private TextView textViewRegisterLink;
     private TextView textViewLoginError;
     private RequestQueue requestQueue;
@@ -35,6 +51,14 @@ public class LoginActivity extends AppCompatActivity
     /*** url backend
      * Nota, por el momento se tiene que modificar con la ip privada local de cada uno, hay que modificarlo ***/
     private static final String URL_LOGIN = BuildConfig.BACKEND_URL + "/auth/login";
+
+    @Inject
+    LoginAPIService loginAPIService;
+    @Inject
+    TokenRepository tokenRepository;
+    @Inject
+    EntregasAPIService entregasAPIService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +73,8 @@ public class LoginActivity extends AppCompatActivity
         requestQueue = Volley.newRequestQueue(this);
         sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
+        buttonMakeRequest = findViewById(R.id.btnDebugMakeRequest);
+
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +86,21 @@ public class LoginActivity extends AppCompatActivity
                     textViewLoginError.setVisibility(View.VISIBLE);
                     return;
                 }
-                login(email, password);
+
+                loginAPIService.doLogin(new LoginDTO(email, password)).enqueue(new Callback<LoginResponseDTO>() {
+                    @Override
+                    public void onResponse(Call<LoginResponseDTO> call, retrofit2.Response<LoginResponseDTO> response) {
+                        if(response.isSuccessful()){
+                            System.out.println("Writing token value to repository " + response.body().getJwtToken());
+                            tokenRepository.saveToken(response.body().getJwtToken());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginResponseDTO> call, Throwable t) {
+                        System.out.println(t.getCause());
+                    }
+                });
             }
         });
 
@@ -70,6 +110,26 @@ public class LoginActivity extends AppCompatActivity
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        buttonMakeRequest.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+
+                System.out.println("Debug function called");
+                entregasAPIService.obtenerMisEntregas().enqueue(new Callback<List<EntregasReponseDTO>>() {
+                    @Override
+                    public void onResponse(Call<List<EntregasReponseDTO>> call, retrofit2.Response<List<EntregasReponseDTO>> response) {
+                        for(EntregasReponseDTO entrega: response.body()){
+                            System.out.println(entrega);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<EntregasReponseDTO>> call, Throwable t) {
+                        System.out.println(t.getCause());
+                    }
+                });
             }
         });
     }

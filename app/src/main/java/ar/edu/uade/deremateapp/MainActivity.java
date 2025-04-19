@@ -10,10 +10,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import javax.inject.Inject;
+
+import ar.edu.uade.deremateapp.data.repository.token.TokenRepository;
+import dagger.hilt.android.AndroidEntryPoint;
+
+@AndroidEntryPoint
 public class MainActivity extends AppCompatActivity
 {
-
-    private SharedPreferences sharedPreferences;
+    @Inject
+    TokenRepository tokenRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -27,9 +33,8 @@ public class MainActivity extends AppCompatActivity
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        sharedPreferences = getSharedPreferences("MyAppPrefs",MODE_PRIVATE);
-        String jwtToken = sharedPreferences.getString("jwtToken","");
-        if(jwtToken.isEmpty()) // si no existe jwtToken, se procede a redirigir al usuario al LoginActivity
+        String jwtToken = tokenRepository.getToken();
+        if(jwtToken == null || jwtToken.isEmpty()) // si no existe jwtToken, se procede a redirigir al usuario al LoginActivity
         {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -37,7 +42,9 @@ public class MainActivity extends AppCompatActivity
         }
         else
         {
-            //todo
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish(); // se cierra esta Activity para que el usuario no pueda verla
         }
 
     }
