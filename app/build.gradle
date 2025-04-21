@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.dagger.hilt.android") version "2.48"
+    id "com.google.android.libraries.mapsplatform.secrets-gradle-plugin" version "2.0.1"
 }
 
 android {
@@ -9,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "ar.edu.uade.deremateapp"
-        minSdk 21
+        minSdk 33
         targetSdk 35
         versionCode 1
         versionName "1.0"
@@ -31,6 +32,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
     }
+    buildscript {
+        dependencies {
+            classpath "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1"
+        }
+    }
 }
 
 dependencies {
@@ -38,6 +44,7 @@ dependencies {
 
     // Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.48")
+    implementation libs.play.services.location
     annotationProcessor("com.google.dagger:hilt-android-compiler:2.48")
 
     // Retrofit
@@ -58,6 +65,10 @@ dependencies {
     //Material
     implementation("com.google.android.material:material:1.12.0")
 
+    // Google maps
+    implementation 'com.google.android.gms:play-services-maps:18.2.0'
+
+
     implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
@@ -71,4 +82,21 @@ dependencies {
 hilt {
     enableAggregatingTask = false
 }
+
+secrets {
+    // Optionally specify a different file name containing your secrets.
+    // The plugin defaults to "local.properties"
+    propertiesFileName = "secrets.properties"
+
+    // A properties file containing default secret values. This file can be
+    // checked in version control.
+    defaultPropertiesFileName = "local.defaults.properties"
+
+    // Configure which keys should be ignored by the plugin by providing regular expressions.
+    // "sdk.dir" is ignored by default.
+    ignoreList.add("keyToIgnore") // Ignore the key "keyToIgnore"
+    ignoreList.add("sdk.*")       // Ignore all keys matching the regexp "sdk.*"
+}
+
+
 
