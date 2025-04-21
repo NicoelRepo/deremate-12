@@ -12,7 +12,7 @@
         android:layout_height="120dp"
         android:layout_marginBottom="24dp"
         android:src="@mipmap/ic_launcher_foreground"
-        android:contentDescription="Logo de la aplicación" />
+        android:contentDescription="Logo de la app" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Iniciar Sesión"
+        android:text="Iniciar sesión"
         app:cornerRadius="8dp" />
 
     <TextView

@@ -1,70 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="24dp">
 
-        <EditText
-            android:id="@+id/editTextNombreRegistro"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:text="Registro de usuario"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre"
-            android:inputType="textPersonName" />
+            android:hint="Nombre">
 
-        <EditText
-            android:id="@+id/editTextApellidoRegistro"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextNombreRegistro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:paddingStart="?android:attr/listPreferredItemPaddingStart" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Apellido"
-            android:inputType="textPersonName" />
+            android:layout_marginTop="16dp"
+            android:hint="Apellido">
 
-        <EditText
-            android:id="@+id/editTextEmailRegistro"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextApellidoRegistro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPersonName"
+                android:paddingStart="?android:attr/listPreferredItemPaddingStart" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress" />
+            android:layout_marginTop="16dp"
+            android:hint="Email">
 
-        <EditText
-            android:id="@+id/editTextUsernameRegistro"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextEmailRegistro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:paddingStart="?android:attr/listPreferredItemPaddingStart" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre de Usuario"
-            android:inputType="text" />
+            android:layout_marginTop="16dp"
+            android:hint="Nombre de Usuario">
 
-        <EditText
-            android:id="@+id/editTextPasswordRegistro"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextUsernameRegistro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:paddingStart="?android:attr/listPreferredItemPaddingStart" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:hint="Contraseña"
-            android:inputType="textPassword" />
+            app:passwordToggleEnabled="true">
 
-        <EditText
-            android:id="@+id/editTextDocumentoRegistro"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextPasswordRegistro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:paddingStart="?android:attr/listPreferredItemPaddingStart" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Documento"
-            android:inputType="number" />
+            android:layout_marginTop="16dp"
+            android:hint="Documento">
 
-        <Button
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextDocumentoRegistro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:paddingStart="?android:attr/listPreferredItemPaddingStart" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Registrarse" />
+            android:layout_marginTop="24dp"
+            android:text="Registrarse"
+            app:cornerRadius="8dp" />
 
         <TextView
             android:id="@+id/textViewLoginLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="¿Ya tienes cuenta? Inicia sesión aquí"
             android:clickable="true"
-            android:focusable="true" />
+            android:focusable="true"
+            android:text="¿Ya tienes cuenta? Inicia sesión aquí"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/textViewRegisterError"
