@@ -93,6 +93,7 @@ public class LoginActivity extends AppCompatActivity
                         if(response.isSuccessful()){
                             System.out.println("Writing token value to repository " + response.body().getJwtToken());
                             tokenRepository.saveToken(response.body().getJwtToken());
+                            finish();
                         }
                     }
 
