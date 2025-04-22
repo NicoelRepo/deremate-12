@@ -1,24 +1,24 @@
 package ar.edu.uade.deremateapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import javax.inject.Inject;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import ar.edu.uade.deremateapp.data.api.RegistroAPIService;
+import ar.edu.uade.deremateapp.data.api.model.UsuarioDTO;
+import dagger.hilt.android.AndroidEntryPoint;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+@AndroidEntryPoint
 public class RegisterActivity extends AppCompatActivity
 {
 
@@ -31,7 +31,8 @@ public class RegisterActivity extends AppCompatActivity
     private Button buttonRegister;
     private TextView textViewLoginLink;
     private TextView textViewRegisterError;
-    private RequestQueue requestQueue;
+    @Inject
+    RegistroAPIService registroAPIService;
 
     /*** url backend
      * Nota, por el momento se tiene que modificar con la ip privada local de cada uno, hay que modificarlo ***/
@@ -51,7 +52,6 @@ public class RegisterActivity extends AppCompatActivity
         buttonRegister = findViewById(R.id.buttonRegister);
         textViewLoginLink = findViewById(R.id.textViewLoginLink);
         textViewRegisterError = findViewById(R.id.textViewRegisterError);
-        requestQueue = Volley.newRequestQueue(this);
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,12 +63,55 @@ public class RegisterActivity extends AppCompatActivity
                 String password = editTextPasswordRegistro.getText().toString().trim();
                 String documento = editTextDocumentoRegistro.getText().toString().trim();
 
-                if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() || username.isEmpty() || password.isEmpty() || documento.isEmpty()) {
+                // Validaciones
+                if (nombre.isEmpty() || apellido.isEmpty() || email.isEmpty() ||
+                        username.isEmpty() || password.isEmpty() || documento.isEmpty()) {
                     textViewRegisterError.setText("Todos los campos son obligatorios.");
                     textViewRegisterError.setVisibility(View.VISIBLE);
                     return;
                 }
-                registerUser(nombre, apellido, email, username, password, documento);
+
+                if (!email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")) {
+                    textViewRegisterError.setText("El correo ingresado no es válido.");
+                    textViewRegisterError.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                if (password.length() < 6) {
+                    textViewRegisterError.setText("La contraseña debe tener al menos 6 caracteres.");
+                    textViewRegisterError.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                if (username.contains(" ")) {
+                    textViewRegisterError.setText("El nombre de usuario no puede contener espacios.");
+                    textViewRegisterError.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                int documentoInt;
+                try {
+                    documentoInt = Integer.parseInt(documento);
+                    if (documentoInt <= 0) {
+                        throw new NumberFormatException();
+                    }
+                } catch (NumberFormatException e) {
+                    textViewRegisterError.setText("El documento debe ser un número válido.");
+                    textViewRegisterError.setVisibility(View.VISIBLE);
+                    return;
+                }
+
+                textViewRegisterError.setVisibility(View.GONE); // Ocultamos errores si todo está bien
+
+                UsuarioDTO usuarioDTO = new UsuarioDTO();
+                usuarioDTO.setApellido(apellido);
+                usuarioDTO.setEmail(email);
+                usuarioDTO.setDocumento(documentoInt);
+                usuarioDTO.setPassword(password);
+                usuarioDTO.setNombre(nombre);
+                usuarioDTO.setUsername(username);
+
+                registerUser(usuarioDTO);
             }
         });
 
@@ -80,57 +123,28 @@ public class RegisterActivity extends AppCompatActivity
         });
     }
 
-    private void registerUser(String nombre, String apellido, String email, String username, String password, String documento) {
-        JSONObject jsonBody = new JSONObject();
-        try {
-            jsonBody.put("nombre", nombre);
-            jsonBody.put("apellido", apellido);
-            jsonBody.put("email", email);
-            jsonBody.put("username", username);
-            jsonBody.put("password", password);
-            jsonBody.put("documento", Integer.parseInt(documento)); // Asegúrate de que el backend espera un entero para documento
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Error al crear la petición de registro.", Toast.LENGTH_SHORT).show();
-            return;
-        } catch (NumberFormatException e) {
-            textViewRegisterError.setText("El documento debe ser un número.");
-            textViewRegisterError.setVisibility(View.VISIBLE);
-            return;
-        }
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL_REGISTRO, jsonBody,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Toast.makeText(RegisterActivity.this, "Registro exitoso.", Toast.LENGTH_SHORT).show();
-                        finish(); // Vuelve a la pantalla de inicio de sesión después del registro exitoso
-                    }
-                }, new Response.ErrorListener() {
+    private void registerUser(UsuarioDTO usuarioDTO) {
+        registroAPIService.doRegistro(usuarioDTO).enqueue(new Callback<>() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error.networkResponse != null && error.networkResponse.data != null) {
-                    try {
-                        String errorString = new String(error.networkResponse.data);
-                        JSONObject errorJson = new JSONObject(errorString);
-                        // Aquí puedes intentar extraer el mensaje específico del error del backend
-                        if (errorJson.has("message")) {
-                            textViewRegisterError.setText(errorJson.getString("message"));
-                        } else {
-                            textViewRegisterError.setText("Error de registro.");
-                        }
-                    } catch (JSONException e) {
-                        textViewRegisterError.setText("Error de registro.");
-                        e.printStackTrace();
-                    }
+            public void onResponse(Call<UsuarioDTO> call, Response<UsuarioDTO> response) {
+                if (response.isSuccessful()) {
+                    // Pasar email al proximo intent para usarlo con el codigo
+                    Intent intent = new Intent(RegisterActivity.this, ConfirmarRegistroActivity.class);
+                    intent.putExtra("email", usuarioDTO.getEmail());
+                    startActivity(intent);
+                    finish();
                 } else {
-                    textViewRegisterError.setText("Error de conexión o del servidor.");
+                    textViewRegisterError.setText("Error de registro.");
+                    textViewRegisterError.setVisibility(View.VISIBLE);
                 }
+            }
+
+            @Override
+            public void onFailure(Call<UsuarioDTO> call, Throwable t) {
+                textViewRegisterError.setText("Error de conexión.");
                 textViewRegisterError.setVisibility(View.VISIBLE);
-                // También podrías loggear el error para depuración: Log.e("RegisterActivity", "Error de registro: " + error.toString());
             }
         });
-
-        requestQueue.add(request);
     }
+
 }
