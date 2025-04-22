@@ -71,6 +71,16 @@
             android:text="¿No tienes cuenta? Regístrate aquí"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/textPasswordRecovery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="¿Olvidaste tu contraseña?"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/textViewLoginError"

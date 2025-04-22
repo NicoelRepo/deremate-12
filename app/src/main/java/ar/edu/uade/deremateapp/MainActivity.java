@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity
         Fragment homeFragment = HomeFragment.newInstance();
         Fragment debugFragment = new DebugFragment();
 
-        setCurrentFragment(homeFragment);
+        setCurrentFragment(profileFragment);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if(item.getItemId() == R.id.profile) {
