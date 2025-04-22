@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity
 
 
         Fragment profileFragment = new ProfileFragment();
-        Fragment homeFragment = new HomeFragment();
+        Fragment homeFragment = HomeFragment.newInstance();
         Fragment debugFragment = new DebugFragment();
 
         setCurrentFragment(homeFragment);

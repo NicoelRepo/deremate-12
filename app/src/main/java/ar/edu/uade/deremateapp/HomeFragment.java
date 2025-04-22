@@ -1,5 +1,6 @@
 package ar.edu.uade.deremateapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,17 +36,39 @@ public class HomeFragment extends Fragment {
 
     private ListView listView;
     private List<String> entregasDisplayList;
+    private List<EntregasReponseDTO> entregasList;
     private ArrayAdapter<String> adapter;
 
+    public static HomeFragment newInstance() {
+        HomeFragment fragment = new HomeFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        super.onViewCreated(view, savedInstanceState);
+
         listView = view.findViewById(R.id.listView);
-        entregasDisplayList = new ArrayList<>();
-        adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, entregasDisplayList);
+        entregasDisplayList = new ArrayList<String>();
+        entregasList = new ArrayList<EntregasReponseDTO>();
+        adapter = new ArrayAdapter<String>(view.getContext(), android.R.layout.simple_list_item_1, entregasDisplayList);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener((parent, vw, position, id) -> {
+            Intent intent = new Intent(getActivity(), EntregaDetailsActivity.class);
+
+            intent.putExtra("entregaObj",entregasList.get(position));
+
+            startActivity(intent);
+        });
 
         entregasAPIService.obtenerMisEntregas().enqueue(new Callback<List<EntregasReponseDTO>>() {
             @Override
@@ -53,6 +76,7 @@ public class HomeFragment extends Fragment {
                 if(response.isSuccessful()){
                     for(EntregasReponseDTO entrega: response.body()){
                         var msg = String.format("Direccion: %s, Estado: %s", entrega.getDireccion(), entrega.getEstado());
+                        entregasList.add(entrega);
                         entregasDisplayList.add(msg);
                     }
                     requireActivity().runOnUiThread(() -> adapter.notifyDataSetChanged());
@@ -65,7 +89,5 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-        return view;
     }
 }
