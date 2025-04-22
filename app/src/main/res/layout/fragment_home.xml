@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="16dp"
-            android:text="Mi Historial"
+            android:text="Mis Entregas"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
             android:textSize="24sp"
             android:textStyle="bold" />

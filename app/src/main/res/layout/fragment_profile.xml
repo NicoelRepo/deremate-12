@@ -15,12 +15,12 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mis entregas"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:padding="16dp"
             android:gravity="center"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />
+            android:padding="16dp"
+            android:text="Mi Historial"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <ListView
             android:id="@+id/listView"
