@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button buttonLogin;
     private Button buttonMakeRequest;
     private TextView textViewRegisterLink;
+    private TextView textViewPasswordRecovery;
     private TextView textViewLoginError;
     private RequestQueue requestQueue;
     private SharedPreferences sharedPreferences; // uso para guardar el jwtToken de forma segura en la app
@@ -61,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextPasswordLogin = findViewById(R.id.editTextPasswordLogin);
         buttonLogin = findViewById(R.id.buttonLogin);
         textViewRegisterLink = findViewById(R.id.textViewRegisterLink);
+        textViewPasswordRecovery = findViewById(R.id.textPasswordRecovery);
         textViewLoginError = findViewById(R.id.textViewLoginError);
         requestQueue = Volley.newRequestQueue(this);
         sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
@@ -103,6 +105,11 @@ public class LoginActivity extends AppCompatActivity {
         // Este es el OnClickListener que faltaba para el enlace de registro
         textViewRegisterLink.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+            startActivity(intent);
+        });
+
+        textViewPasswordRecovery.setOnClickListener(v -> {
+            Intent intent = new Intent(LoginActivity.this, PasswordRecoveryActivity.class);
             startActivity(intent);
         });
 

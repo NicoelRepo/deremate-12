@@ -32,6 +32,12 @@
             android:name=".RegisterActivity"
             android:exported="false" />
         <activity
+            android:name=".PasswordRecoveryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ConfirmarRecoveryActivity"
+            android:exported="false" />
+        <activity
             android:name=".EntregaDetailsActivity"
             android:exported="false" />
 
