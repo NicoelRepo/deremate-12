@@ -12,8 +12,6 @@ import java.security.GeneralSecurityException;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import dagger.Provides;
-
 @Singleton
 public class TokenRepository {
     private static final String PREF_FILE_NAME = "encrypted_prefs";
@@ -53,5 +51,9 @@ public class TokenRepository {
 
     public void clearToken() {
         encryptedPrefs.edit().remove(KEY_JWT_TOKEN).apply();
+    }
+
+    public boolean hayToken() {
+        return getToken() != null && !getToken().isEmpty();
     }
 }

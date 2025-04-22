@@ -75,33 +75,36 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
         }
 
         TextView textViewUserName = findViewById(R.id.textViewUserName);
-        usuarioService.getUsuario().enqueue(new Callback<>() {
-            @Override
-            public void onResponse(Call<UsuarioDTO> call, Response<UsuarioDTO> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    UsuarioDTO usuario = response.body();
-                    usuarioRepository.saveUsuario(usuario);
+        if (tokenRepository.hayToken()) {
+            usuarioService.getUsuario().enqueue(new Callback<>() {
+                @Override
+                public void onResponse(Call<UsuarioDTO> call, Response<UsuarioDTO> response) {
+                    if (response.isSuccessful() && response.body() != null) {
+                        UsuarioDTO usuario = response.body();
+                        usuarioRepository.saveUsuario(usuario);
 
-                    String nombreCompleto = usuario.getNombre() + " " + usuario.getApellido();
-                    textViewUserName.setText(nombreCompleto);
-                } else {
-                    textViewUserName.setText("Usuario desconocido");
+                        String nombreCompleto = usuario.getNombre() + " " + usuario.getApellido();
+                        textViewUserName.setText(nombreCompleto);
+                    } else {
+                        textViewUserName.setText("Usuario desconocido");
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<UsuarioDTO> call, Throwable t) {
-                UsuarioDTO cached = usuarioRepository.getUsuario();
-                if (cached != null) {
-                    textViewUserName.setText(cached.getNombre() + " " + cached.getApellido());
-                } else {
-                    textViewUserName.setText("Error al cargar usuario");
+                @Override
+                public void onFailure(Call<UsuarioDTO> call, Throwable t) {
+                    UsuarioDTO cached = usuarioRepository.getUsuario();
+                    if (cached != null) {
+                        textViewUserName.setText(cached.getNombre() + " " + cached.getApellido());
+                    } else {
+                        textViewUserName.setText("Error al cargar usuario");
+                    }
                 }
-            }
-        });
+            });
+        }
 
         Button buttonLogout = findViewById(R.id.buttonLogout);
         buttonLogout.setOnClickListener(v -> {
@@ -110,6 +113,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+            finish();
         });
     }
 
