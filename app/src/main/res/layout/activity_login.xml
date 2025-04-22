@@ -1,38 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="24dp">
 
-    <EditText
-        android:id="@+id/editTextEmailLogin"
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginBottom="24dp"
+        android:src="@mipmap/ic_launcher_foreground"
+        android:contentDescription="Logo de la app" />
+
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress" />
+        android:hint="Email">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextEmailLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/editTextPasswordLogin"
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:hint="Contraseña"
-        android:inputType="textPassword" />
+        app:passwordToggleEnabled="true">
 
-    <Button
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPasswordLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Iniciar Sesión" />
+        android:layout_marginTop="24dp"
+        android:text="Iniciar sesión"
+        app:cornerRadius="8dp" />
 
     <TextView
         android:id="@+id/textViewRegisterLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="¿No tienes cuenta? Regístrate aquí"
         android:clickable="true"
-        android:focusable="true" />
+        android:focusable="true"
+        android:text="¿No tienes cuenta? Regístrate aquí"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@color/black" />
+
+
 
     <TextView
         android:id="@+id/textViewLoginError"
@@ -46,6 +73,7 @@
         android:id="@+id/btnDebugMakeRequest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:text="[Debug]Make request with token" />
 
 </LinearLayout>
