@@ -15,8 +15,8 @@ public class UiUtils {
 
         Snackbar snackbar = Snackbar.make(anchor, message, Snackbar.LENGTH_LONG)
                 .setBackgroundTint(ContextCompat.getColor(activity, R.color.design_default_color_error))
-                .setTextColor(Color.WHITE)
-                .setAnchorView(anchor);
+                .setTextColor(Color.WHITE);
+//                .setAnchorView(anchor);
 
         snackbar.show();
     }
