@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 import ar.edu.uade.deremateapp.BuildConfig;
 import ar.edu.uade.deremateapp.data.api.EntregasAPIService;
 import ar.edu.uade.deremateapp.data.api.LoginAPIService;
+import ar.edu.uade.deremateapp.data.api.RegistroAPIService;
 import ar.edu.uade.deremateapp.data.api.UsuarioService;
 import ar.edu.uade.deremateapp.data.repository.token.TokenRepository;
 import dagger.Module;
@@ -80,5 +81,11 @@ public class NetworkModule {
     @Singleton
     public static UsuarioService provideUsuarioService(Retrofit retrofit) {
         return retrofit.create(UsuarioService.class);
+    }
+
+    @Provides
+    @Singleton
+    public static RegistroAPIService provideRegistroService(Retrofit retrofit) {
+        return retrofit.create(RegistroAPIService.class);
     }
 }
