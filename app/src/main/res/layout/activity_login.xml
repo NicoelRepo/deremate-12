@@ -1,79 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="24dp">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginBottom="24dp"
-        android:src="@mipmap/ic_launcher_foreground"
-        android:contentDescription="Logo de la app" />
-
-    <com.google.android.material.textfield.TextInputLayout
+    <!-- ANCLA PARA UBICAR EL SNACKBAR ARRIBA -->
+    <View
+        android:id="@+id/snackbar_anchor"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextEmailLogin"
+        android:layout_height="1dp"
+        android:layout_marginTop="80dp"
+        android:background="@android:color/transparent" />
+
+    <!-- CONTENIDO DE LA PANTALLA -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginBottom="24dp"
+            android:src="@mipmap/ic_launcher_foreground"
+            android:contentDescription="Logo de la app" />
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:hint="Email">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextEmailLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:hint="Contraseña"
-        app:passwordToggleEnabled="true">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextPasswordLogin"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:layout_marginTop="16dp"
+            android:hint="Contraseña"
+            app:passwordToggleEnabled="true">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextPasswordLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Iniciar sesión"
-        app:cornerRadius="8dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Iniciar sesión"
+            app:cornerRadius="8dp" />
 
-    <TextView
-        android:id="@+id/textViewRegisterLink"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:text="¿No tienes cuenta? Regístrate aquí"
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@color/black" />
+        <TextView
+            android:id="@+id/textViewRegisterLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:text="¿No tienes cuenta? Regístrate aquí"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/black" />
 
+        <TextView
+            android:id="@+id/textViewLoginError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/holo_red_dark"
+            android:gravity="center"
+            android:visibility="gone" />
 
-
-    <TextView
-        android:id="@+id/textViewLoginError"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textColor="@android:color/holo_red_dark"
-        android:visibility="gone" />
-
-    <Button
-        android:id="@+id/btnDebugMakeRequest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="[Debug]Make request with token" />
-
-</LinearLayout>
+        <Button
+            android:id="@+id/btnDebugMakeRequest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="[Debug]Make request with token" />
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
