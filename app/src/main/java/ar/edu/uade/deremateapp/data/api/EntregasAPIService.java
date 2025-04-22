@@ -10,4 +10,7 @@ public interface EntregasAPIService {
 
     @GET("api/entregas/mis-entregas")
     Call<List<EntregasReponseDTO>> obtenerMisEntregas();
+
+    @GET("api/entregas/pendientes")
+    Call<List<EntregasReponseDTO>> obtenerPendientes();
 }
