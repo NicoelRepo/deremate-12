@@ -1,26 +1,31 @@
-package ar.edu.uade.deremateapp;
+package ar.edu.uade.deremateapp.ui.auth;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-import java.util.List;
-
 import javax.inject.Inject;
 
+import ar.edu.uade.deremateapp.BuildConfig;
+import ar.edu.uade.deremateapp.MainActivity;
+import ar.edu.uade.deremateapp.R;
 import ar.edu.uade.deremateapp.data.UiUtils;
 import ar.edu.uade.deremateapp.data.api.EntregasAPIService;
 import ar.edu.uade.deremateapp.data.api.LoginAPIService;
-import ar.edu.uade.deremateapp.data.api.model.EntregasReponseDTO;
 import ar.edu.uade.deremateapp.data.api.model.LoginDTO;
 import ar.edu.uade.deremateapp.data.api.model.LoginResponseDTO;
 import ar.edu.uade.deremateapp.data.repository.token.TokenRepository;
@@ -29,7 +34,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 @AndroidEntryPoint
-public class LoginActivity extends AppCompatActivity {
+public class LoginFragment extends Fragment {
 
     private EditText editTextEmailLogin;
     private EditText editTextPasswordLogin;
@@ -52,19 +57,29 @@ public class LoginActivity extends AppCompatActivity {
     EntregasAPIService entregasAPIService;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    public static LoginFragment newInstance() {
+        LoginFragment fragment = new LoginFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-        editTextEmailLogin = findViewById(R.id.editTextEmailLogin);
-        editTextPasswordLogin = findViewById(R.id.editTextPasswordLogin);
-        buttonLogin = findViewById(R.id.buttonLogin);
-        textViewRegisterLink = findViewById(R.id.textViewRegisterLink);
-        textViewPasswordRecovery = findViewById(R.id.textPasswordRecovery);
-        textViewLoginError = findViewById(R.id.textViewLoginError);
-        requestQueue = Volley.newRequestQueue(this);
-        sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.activity_login, container, false);
+    }
+
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        editTextEmailLogin = view.findViewById(R.id.editTextEmailLogin);
+        editTextPasswordLogin = view.findViewById(R.id.editTextPasswordLogin);
+        buttonLogin = view.findViewById(R.id.buttonLogin);
+        textViewRegisterLink = view.findViewById(R.id.textViewRegisterLink);
+        textViewPasswordRecovery = view.findViewById(R.id.textPasswordRecovery);
+        textViewLoginError = view.findViewById(R.id.textViewLoginError);
+        requestQueue = Volley.newRequestQueue(view.getContext());
+        sharedPreferences = requireActivity().getSharedPreferences("MyAppPrefs", Context.MODE_PRIVATE);
 
 
         buttonLogin.setOnClickListener(v -> {
@@ -84,31 +99,38 @@ public class LoginActivity extends AppCompatActivity {
                         System.out.println("Writing token value to repository " + response.body().getJwtToken());
                         tokenRepository.saveToken(response.body().getJwtToken());
 
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        Intent intent = new Intent(requireContext(), MainActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
-                        finish();
+                        requireActivity().finish();
                     } else {
-                        UiUtils.showErrorSnackbar(LoginActivity.this, "Las credenciales no son válidas");
+                        UiUtils.showErrorSnackbar(requireActivity(), "Las credenciales no son válidas");
                     }
                 }
 
                 @Override
                 public void onFailure(Call<LoginResponseDTO> call, Throwable t) {
-                    UiUtils.showErrorSnackbar(LoginActivity.this, "Ha ocurrido un error al iniciar sesión: " + t.getMessage());
+                    UiUtils.showErrorSnackbar(requireActivity(), "Ha ocurrido un error al iniciar sesión: " + t.getMessage());
                 }
             });
         });
 
-        // Este es el OnClickListener que faltaba para el enlace de registro
+        // Navegación a RegisterFragment (si ya migraste RegisterActivity a fragment, usa esto)
         textViewRegisterLink.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(intent);
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new RegisterFragment())
+                    .addToBackStack(null)
+                    .commit();
         });
 
+// Navegación a PasswordRecoveryFragment
         textViewPasswordRecovery.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, PasswordRecoveryActivity.class);
-            startActivity(intent);
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, new PasswordRecoveryFragment())
+                    .addToBackStack(null)
+                    .commit();
         });
     }
 }

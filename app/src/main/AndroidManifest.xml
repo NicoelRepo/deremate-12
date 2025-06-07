@@ -26,23 +26,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".AuthActivity"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".ui.auth.RegisterFragment"
             android:exported="false" />
         <activity
-            android:name=".PasswordRecoveryActivity"
+            android:name=".ui.auth.PasswordRecoveryFragment"
             android:exported="false" />
         <activity
-            android:name=".ConfirmarRecoveryActivity"
+            android:name=".ui.auth.ConfirmarRecoveryFragment"
             android:exported="false" />
         <activity
-            android:name=".EntregaDetailsActivity"
+            android:name=".ui.main.EntregaDetailsActivity"
             android:exported="false" />
 
         <activity
-            android:name=".ConfirmarRegistroActivity"
+            android:name=".ui.auth.ConfirmarRegistroFragment"
             android:exported="false" />
 
         <meta-data

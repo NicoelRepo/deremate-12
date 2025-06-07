@@ -2,14 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/profile"
-        android:title="Profile"
+        android:title="Historial"
         android:icon="@drawable/person"/>
     <item
         android:id="@+id/home"
-        android:title="Home"
-        android:icon="@drawable/home"/>
-    <item
-        android:id="@+id/debug"
-        android:title="Debug"
-        android:icon="@drawable/debug"/>
+        android:title="En curso"
+        android:icon="@drawable/truck_icon"/>
 </menu>

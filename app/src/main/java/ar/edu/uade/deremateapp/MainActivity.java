@@ -20,6 +20,8 @@ import ar.edu.uade.deremateapp.data.api.UsuarioService;
 import ar.edu.uade.deremateapp.data.api.model.UsuarioDTO;
 import ar.edu.uade.deremateapp.data.repository.UsuarioRepository;
 import ar.edu.uade.deremateapp.data.repository.token.TokenRepository;
+import ar.edu.uade.deremateapp.ui.main.HomeFragment;
+import ar.edu.uade.deremateapp.ui.main.ProfileFragment;
 import dagger.hilt.android.AndroidEntryPoint;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,7 +50,6 @@ public class MainActivity extends AppCompatActivity
 
         Fragment profileFragment = new ProfileFragment();
         Fragment homeFragment = HomeFragment.newInstance();
-        Fragment debugFragment = new DebugFragment();
 
         setCurrentFragment(profileFragment);
 
@@ -57,8 +58,6 @@ public class MainActivity extends AppCompatActivity
                 setCurrentFragment(profileFragment);
             }else if(item.getItemId() == R.id.home) {
                 setCurrentFragment(homeFragment);
-            }else if(item.getItemId() == R.id.debug) {
-                setCurrentFragment(debugFragment);
             }
             return true;
         });
@@ -70,9 +69,9 @@ public class MainActivity extends AppCompatActivity
             return insets;
         });
         String jwtToken = tokenRepository.getToken();
-        if(jwtToken == null || jwtToken.isEmpty()) // si no existe jwtToken, se procede a redirigir al usuario al LoginActivity
+        if(jwtToken == null || jwtToken.isEmpty()) // si no existe jwtToken, se procede a redirigir al usuario al AuthActivity
         {
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, AuthActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
@@ -110,7 +109,7 @@ public class MainActivity extends AppCompatActivity
         buttonLogout.setOnClickListener(v -> {
             tokenRepository.clearToken();
             usuarioRepository.clearUsuario();
-            Intent intent = new Intent(this, LoginActivity.class);
+            Intent intent = new Intent(this, AuthActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();

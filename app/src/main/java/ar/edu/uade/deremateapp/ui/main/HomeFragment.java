@@ -1,4 +1,4 @@
-package ar.edu.uade.deremateapp;
+package ar.edu.uade.deremateapp.ui.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,9 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,9 +17,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import ar.edu.uade.deremateapp.R;
 import ar.edu.uade.deremateapp.data.api.EntregasAPIService;
-import ar.edu.uade.deremateapp.data.api.LoginAPIService;
 import ar.edu.uade.deremateapp.data.api.model.EntregasReponseDTO;
+import ar.edu.uade.deremateapp.ui.auth.PasswordRecoveryFragment;
 import dagger.hilt.android.AndroidEntryPoint;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,11 +62,14 @@ public class HomeFragment extends Fragment {
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener((parent, vw, position, id) -> {
-            Intent intent = new Intent(getActivity(), EntregaDetailsActivity.class);
+            EntregasReponseDTO entregaSeleccionada = entregasList.get(position);
+            EntregaDetailsFragment detailsFragment = EntregaDetailsFragment.newInstance(entregaSeleccionada);
 
-            intent.putExtra("entregaObj",entregasList.get(position));
-
-            startActivity(intent);
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.flFragment, detailsFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
 
         entregasAPIService.obtenerPendientes().enqueue(new Callback<List<EntregasReponseDTO>>() {
