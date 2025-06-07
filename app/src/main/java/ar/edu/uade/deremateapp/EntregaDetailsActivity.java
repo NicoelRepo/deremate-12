@@ -1,17 +1,22 @@
 package ar.edu.uade.deremateapp;
 
 import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import android.Manifest;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -42,6 +47,9 @@ import javax.inject.Inject;
 import ar.edu.uade.deremateapp.data.api.EntregasAPIService;
 import ar.edu.uade.deremateapp.data.api.model.EntregasReponseDTO;
 import dagger.hilt.android.AndroidEntryPoint;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 @AndroidEntryPoint
@@ -54,6 +62,8 @@ public class EntregaDetailsActivity extends AppCompatActivity implements OnMapRe
     private TextView txEstado;
     private TextView txFechaCreacion;
     private TextView txObservaciones;
+
+    private Button btnUpdateStatus;
 
     GoogleMap googleMap;
     FusedLocationProviderClient fusedLocationClient;
@@ -75,10 +85,72 @@ public class EntregaDetailsActivity extends AppCompatActivity implements OnMapRe
 
         entregaDetails = getIntent().getSerializableExtra("entregaObj", EntregasReponseDTO.class);
 
+        btnUpdateStatus = findViewById(R.id.btnUpdateStatus);
+
         txDireccion.setText(entregaDetails.getDireccion());
         txEstado.setText(entregaDetails.getEstado());
         txFechaCreacion.setText(entregaDetails.getFechaCreacion());
         txObservaciones.setText(entregaDetails.getObservaciones());
+
+        switch (entregaDetails.getEstado()){
+            case "PENDIENTE":
+                btnUpdateStatus.setVisibility(VISIBLE);
+                btnUpdateStatus.setText("Actualizar: Inciar viaje");
+                break;
+            case "EN_VIAJE":
+                btnUpdateStatus.setVisibility(VISIBLE);
+                btnUpdateStatus.setText("Actualizar: Completar entrega");
+                break;
+            case "CANCELADO":
+            case "ENTREGADO":
+                btnUpdateStatus.setVisibility(INVISIBLE);
+                FragmentContainerView containerView = findViewById(R.id.map_fragment);
+                containerView.setVisibility(INVISIBLE);
+                break;
+        }
+
+        btnUpdateStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String nuevoEstado = null;
+
+                switch (entregaDetails.getEstado()) {
+                    case "PENDIENTE":
+                        nuevoEstado = "EN_VIAJE";
+                        break;
+                    case "EN_VIAJE":
+                        nuevoEstado = "ENTREGADO";
+                        break;
+                }
+
+                if (nuevoEstado != null) {
+                    entregasAPIService.actualizarEstado(entregaDetails.getId(), nuevoEstado)
+                            .enqueue(new Callback<EntregasReponseDTO>() {
+                                @Override
+                                public void onResponse(Call<EntregasReponseDTO> call, Response<EntregasReponseDTO> response) {
+                                    if (response.isSuccessful()) {
+                                        new AlertDialog.Builder(EntregaDetailsActivity.this)
+                                                .setTitle("Estado actualizado")
+                                                .setMessage("El estado se actualizó correctamente.")
+                                                .setPositiveButton("OK", (dialog, which) -> {
+                                                    // Close this activity and go back
+                                                    finish();
+                                                })
+                                                .setCancelable(false)
+                                                .show();
+                                    } else {
+                                        Toast.makeText(EntregaDetailsActivity.this, "Error al actualizar el estado", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<EntregasReponseDTO> call, Throwable t) {
+                                    Toast.makeText(EntregaDetailsActivity.this, "Error de red: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                }
+            }
+        });
 
 
         // Get a handle to the fragment and register the callback.
@@ -86,10 +158,6 @@ public class EntregaDetailsActivity extends AppCompatActivity implements OnMapRe
                 .findFragmentById(R.id.map_fragment);
         mapFragment.getMapAsync(this);
 
-        if(entregaDetails.getEstado().equals("CANCELADO") || entregaDetails.getEstado().equals("ENTREGADO")){
-            FragmentContainerView containerView = findViewById(R.id.map_fragment);
-            containerView.setVisibility(INVISIBLE);
-        }
     }
 
 

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FF9800">
 
     <!-- ANCLA PARA UBICAR EL SNACKBAR ARRIBA -->
     <View
@@ -22,20 +23,22 @@
         android:padding="24dp">
 
         <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            android:layout_width="227dp"
+            android:layout_height="196dp"
             android:layout_marginBottom="24dp"
-            android:src="@mipmap/ic_launcher_foreground"
-            android:contentDescription="Logo de la app" />
+            android:contentDescription="Logo de la app"
+            android:src="@drawable/derematelogof1" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Email">
+
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextEmailLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#FDFDFD"
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,6 +53,7 @@
                 android:id="@+id/editTextPasswordLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#F6F2F2"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,6 +75,7 @@
             android:text="¿No tienes cuenta? Regístrate aquí"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@color/black" />
+
         <TextView
             android:id="@+id/textPasswordRecovery"
             android:layout_width="wrap_content"
@@ -87,15 +92,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:textColor="@android:color/holo_red_dark"
             android:gravity="center"
+            android:textColor="@android:color/holo_red_dark"
             android:visibility="gone" />
 
-        <Button
-            android:id="@+id/btnDebugMakeRequest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="[Debug]Make request with token" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
