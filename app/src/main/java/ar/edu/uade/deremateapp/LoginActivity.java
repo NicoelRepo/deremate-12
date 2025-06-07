@@ -34,7 +34,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmailLogin;
     private EditText editTextPasswordLogin;
     private Button buttonLogin;
-    private Button buttonMakeRequest;
     private TextView textViewRegisterLink;
     private TextView textViewPasswordRecovery;
     private TextView textViewLoginError;
@@ -67,7 +66,6 @@ public class LoginActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
         sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
 
-        buttonMakeRequest = findViewById(R.id.btnDebugMakeRequest);
 
         buttonLogin.setOnClickListener(v -> {
             String email = editTextEmailLogin.getText().toString().trim();
@@ -111,24 +109,6 @@ public class LoginActivity extends AppCompatActivity {
         textViewPasswordRecovery.setOnClickListener(v -> {
             Intent intent = new Intent(LoginActivity.this, PasswordRecoveryActivity.class);
             startActivity(intent);
-        });
-
-        buttonMakeRequest.setOnClickListener(v -> {
-
-            System.out.println("Debug function called");
-            entregasAPIService.obtenerMisEntregas().enqueue(new Callback<>() {
-                @Override
-                public void onResponse(Call<List<EntregasReponseDTO>> call, retrofit2.Response<List<EntregasReponseDTO>> response) {
-                    for (EntregasReponseDTO entrega : response.body()) {
-                        System.out.println(entrega);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<List<EntregasReponseDTO>> call, Throwable t) {
-                    System.out.println(t.getCause());
-                }
-            });
         });
     }
 }
