@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:background="@drawable/bg_card_light"
+    android:layout_marginBottom="12dp">
+
+    <TextView
+        android:id="@+id/txtDireccion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dirección"
+        android:textStyle="bold"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/txtEstado"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estado"
+        android:textSize="14sp"
+        android:textColor="#555555" />
+
+    <TextView
+        android:id="@+id/txtComentario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Comentario del cliente"
+        android:textSize="14sp"
+        android:textColor="#777777"
+        android:layout_marginTop="4dp" />
+
+    <LinearLayout
+        android:id="@+id/starsContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="6dp">
+
+        <ImageView android:id="@+id/star1" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_star_empty"/>
+        <ImageView android:id="@+id/star2" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_star_empty"/>
+        <ImageView android:id="@+id/star3" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_star_empty"/>
+        <ImageView android:id="@+id/star4" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_star_empty"/>
+        <ImageView android:id="@+id/star5" android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_star_empty"/>
+    </LinearLayout>
+</LinearLayout>
