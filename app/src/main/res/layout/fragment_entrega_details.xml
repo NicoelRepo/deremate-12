@@ -86,21 +86,22 @@
                 android:text="Comentario del cliente:"
                 style="@style/TextAppearance.Material3.BodyLarge" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/txComentario"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Comentario..."
-                android:textSize="18sp"
-                android:textStyle="bold"
-                style="@style/TextAppearance.Material3.BodyMedium"
-                android:layout_marginBottom="8dp" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txObservaciones"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_marginBottom="8dp" />
+
+                <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txComentario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Comentario..."
                 android:textSize="18sp"
                 android:textStyle="bold"
                 style="@style/TextAppearance.Material3.BodyMedium"
