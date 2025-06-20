@@ -19,4 +19,5 @@ public interface EntregasAPIService {
 
     @PUT("api/entregas/{id}/estado")
     Call<EntregasReponseDTO> actualizarEstado(@Path("id") long id, @Query("nuevoEstado") String estado);
+
 }

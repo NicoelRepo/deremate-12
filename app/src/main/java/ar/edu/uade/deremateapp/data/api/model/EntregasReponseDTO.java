@@ -14,4 +14,7 @@ public class EntregasReponseDTO implements Serializable {
     private String fechaCreacion;
     private String observaciones;
     private Long usuarioId;
+    private String comentario;
+    private Integer calificacion;
+
 }
