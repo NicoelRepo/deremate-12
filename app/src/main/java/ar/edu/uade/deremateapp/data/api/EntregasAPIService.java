@@ -12,7 +12,7 @@ import retrofit2.http.Query;
 public interface EntregasAPIService {
 
     @GET("api/entregas/mis-entregas")
-    Call<List<EntregasReponseDTO>> obtenerMisEntregas();
+    Call<List<EntregasReponseDTO>> obtenerMisEntregas(@Query("estados") String estados);
 
     @GET("api/entregas/pendientes")
     Call<List<EntregasReponseDTO>> obtenerPendientes();

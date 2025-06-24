@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
                     .commit();
         });
 
-        entregasAPIService.obtenerMisEntregas().enqueue(new Callback<List<EntregasReponseDTO>>() {
+        entregasAPIService.obtenerMisEntregas("ENTREGADO,CANCELADO").enqueue(new Callback<List<EntregasReponseDTO>>() {
             @Override
             public void onResponse(Call<List<EntregasReponseDTO>> call, Response<List<EntregasReponseDTO>> response) {
                 if (response.isSuccessful() && response.body() != null) {
