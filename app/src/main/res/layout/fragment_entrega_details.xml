@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".ui.main.EntregaDetailsActivity">
+    tools:context=".ui.main.EntregaDetailsFragment">
+
 
     <!-- Card for information display -->
     <com.google.android.material.card.MaterialCardView
@@ -74,12 +75,14 @@
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_marginBottom="8dp" />
 
+            <!-- Label: Observaciones -->
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Observaciones:"
                 style="@style/TextAppearance.Material3.BodyLarge" />
 
+            <!-- TextView Observaciones -->
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/txObservaciones"
                 android:layout_width="match_parent"
@@ -89,6 +92,25 @@
                 android:textStyle="bold"
                 style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_marginBottom="8dp" />
+
+            <!-- Label: Comentario del cliente -->
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Comentario del cliente:"
+                style="@style/TextAppearance.Material3.BodyLarge" />
+
+            <!-- TextView Comentario -->
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/txComentario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Comentario..."
+                android:textSize="18sp"
+                android:textStyle="bold"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                android:layout_marginBottom="8dp" />
+
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
