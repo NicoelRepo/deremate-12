@@ -72,7 +72,7 @@ public class HomeFragment extends Fragment {
                     .commit();
         });
 
-        entregasAPIService.obtenerPendientes().enqueue(new Callback<List<EntregasReponseDTO>>() {
+        entregasAPIService.obtenerMisEntregas("EN_VIAJE,PENDIENTE").enqueue(new Callback<List<EntregasReponseDTO>>() {
             @Override
             public void onResponse(Call<List<EntregasReponseDTO>> call, Response<List<EntregasReponseDTO>> response) {
                 if(response.isSuccessful()){
