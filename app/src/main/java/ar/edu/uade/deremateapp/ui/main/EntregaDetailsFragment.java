@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.Manifest;
 import android.widget.Toast;
@@ -55,6 +57,8 @@ public class EntregaDetailsFragment extends Fragment implements OnMapReadyCallba
     private TextView txEstado;
     private TextView txFechaCreacion;
     private TextView txObservaciones;
+    private TextView txComentario;
+    private LinearLayout starsContainer;
     private Button btnUpdateStatus;
 
     private GoogleMap googleMap;
@@ -84,6 +88,8 @@ public class EntregaDetailsFragment extends Fragment implements OnMapReadyCallba
         txEstado = view.findViewById(R.id.txEstado);
         txFechaCreacion = view.findViewById(R.id.txFechaCreacion);
         txObservaciones = view.findViewById(R.id.txObservaciones);
+        txComentario = view.findViewById(R.id.txComentario);
+        starsContainer = view.findViewById(R.id.starsContainer);
         btnUpdateStatus = view.findViewById(R.id.btnUpdateStatus);
 
         if (getArguments() != null) {
@@ -100,6 +106,9 @@ public class EntregaDetailsFragment extends Fragment implements OnMapReadyCallba
         txEstado.setText(entregaDetails.getEstado());
         txFechaCreacion.setText(entregaDetails.getFechaCreacion());
         txObservaciones.setText(entregaDetails.getObservaciones());
+        txComentario.setText(entregaDetails.getComentario());
+
+        mostrarEstrellas(entregaDetails.getCalificacion());
 
         switch (entregaDetails.getEstado()) {
             case "PENDIENTE":
@@ -153,11 +162,24 @@ public class EntregaDetailsFragment extends Fragment implements OnMapReadyCallba
             }
         });
 
-        // Cargar el mapa
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map_fragment);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
+        }
+    }
+
+    private void mostrarEstrellas(int calificacion) {
+        int[] estrellasIds = {
+                R.id.star1, R.id.star2, R.id.star3, R.id.star4, R.id.star5
+        };
+        for (int i = 0; i < estrellasIds.length; i++) {
+            ImageView star = requireView().findViewById(estrellasIds[i]);
+            if (i < calificacion) {
+                star.setImageResource(R.drawable.ic_star_filled);
+            } else {
+                star.setImageResource(R.drawable.ic_star_empty);
+            }
         }
     }
 
@@ -167,7 +189,6 @@ public class EntregaDetailsFragment extends Fragment implements OnMapReadyCallba
 
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
             requestPermissions(
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     1
@@ -203,7 +224,6 @@ public class EntregaDetailsFragment extends Fragment implements OnMapReadyCallba
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED && googleMap != null) {
             googleMap.setMyLocationEnabled(true);
-            // Puedes agregar aquí la lógica para mostrar la ubicación del usuario si lo deseas
         }
     }
 
